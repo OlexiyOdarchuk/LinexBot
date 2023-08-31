@@ -6,13 +6,13 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from aiogram.dispatcher import FSMContext
 from aiogram.utils.exceptions import BotBlocked, UserDeactivated
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from keyboardsru import MenuRu, CategoriesRuIkb, FortniteRuIkb, CodesRuIkb, GiftsRuIkb, BuyCodeRuIkb, BuyGiftRuIkb, RandAccRuIkb, BuyRandomRuIkb, AdminPanelRuIkb, SendALlRuIkb, AdminMenuRu, AccRuIkb, BuyAccRuIkb, SpotifyRuIkb, BuySpotifyRuIkb, BuyNitroRuIkb, NitroRuIkb, VBucksRuIkb, BuyVbRuIkb, OtherRuIkb, YouTubeRuIkb, BuyYtRuIkb, PacksRuIkb, BuyPacksRuIkb
-from keyboardsua import MenuUa, CategoriesUaIkb, FortniteUaIkb, CodesUaIkb, GiftsUaIkb, BuyCodeUaIkb, BuyGiftUaIkb, RandAccUaIkb, BuyRandomUaIkb, Language, AdminMenuUa, AdminPanelUaIkb, SendALlUaIkb, AccUaIkb, BuyAccUaIkb, SpotifyUaIkb, BuySpotifyUaIkb, NitroUaIkb, BuyNitroUaIkb, BuyVbUaIkb, VBucksUaIkb, OtherUaIkb, YouTubeUaIkb, BuyYtUaIkb, PacksUaIkb, BuyPacksUaIkb
-from filters import IsPrivate, IsAdmin
+from keyboardsru import MenuRu, CategoriesRuIkb, FortniteRuIkb, CodesRuIkb, GiftsRuIkb, BuyCodeRuIkb, BuyGiftRuIkb, RandAccRuIkb, BuyRandomRuIkb, AdminPanelRuIkb, SendALlRuIkb, AdminMenuRu, AccRuIkb, BuyAccRuIkb, SpotifyRuIkb, BuySpotifyRuIkb, BuyNitroRuIkb, NitroRuIkb, VBucksRuIkb, BuyVbRuIkb, OtherRuIkb, YouTubeRuIkb, BuyYtRuIkb, PacksRuIkb, BuyPacksRuIkb, AvaRuIkb, BuyAvaRuIkb
+from keyboardsua import MenuUa, CategoriesUaIkb, FortniteUaIkb, CodesUaIkb, GiftsUaIkb, BuyCodeUaIkb, BuyGiftUaIkb, RandAccUaIkb, BuyRandomUaIkb, Language, AdminMenuUa, AdminPanelUaIkb, SendALlUaIkb, AccUaIkb, BuyAccUaIkb, SpotifyUaIkb, BuySpotifyUaIkb, NitroUaIkb, BuyNitroUaIkb, BuyVbUaIkb, VBucksUaIkb, OtherUaIkb, YouTubeUaIkb, BuyYtUaIkb, PacksUaIkb, BuyPacksUaIkb, AvaUaIkb, BuyAvaUaIkb
+from filters import IsPrivate, IsAdmin  
 from defs import get_menuRu, get_menuUa
 from db import Database
 
-API_TOKEN = '6522889029:AAGhpJOPZCJASd-xnNd4M1qubgUp1FoQoqs' 
+API_TOKEN = '6429550023:AAHgrQNzhvLEEzjLzSxHJ8wDklQ9WWzceqY' 
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,6 +26,16 @@ class SendAllClassUa(StatesGroup):
 class SendAllClassRu(StatesGroup):
     text = State()
 
+class NewOrder(StatesGroup):
+    title = State()
+    price = State()
+    photo = State()
+
+
+class NewCategory(StatesGroup):
+    title = State()
+    photo = State()
+
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     if not db.user_exist(message.from_user.id):
@@ -37,12 +47,12 @@ async def start(message: types.Message):
 @dp.callback_query_handler(lambda query: query.data.startswith('ua'))
 async def Ua_button(query: types.CallbackQuery):
     await query.message.delete()
-    await query.message.answer('\n🔥Ти знаходишься в найкращому магазині доповнень для Fortnite🔥\n✅Тут все за низькими цінами, і операції проходять швидко 💨\n😉Хвилюватися не варто😉\n😎Наші модератори працюють 24/7🥇\n😋Бажаю вдалих купівель!😋\n\n😊Для продовження виберіть пункт в меню😊\n\n⬇️<b>ЯКЩО ВИНИКЛИ ПИТАННЯ 🙋‍♂️⬇️\n@Moder_Linex</b>', reply_markup=get_menuUa(query.from_user.id))
+    await query.message.answer('\n🔥Ти знаходишься в найкращому магазині доповнень для Fortnite🔥\n✅Тут все за низькими цінами, і операції проходять швидко 💨\n😉Хвилюватися не варто😉\n😎Наші модератори працюють 24/7🥇\n😋Бажаю вдалих купівель!😋\n\n😊Для продовження виберіть пункт в меню😊\n\n⬇️<b>ЯКЩО ВИНИКЛИ ПИТАННЯ 🙋‍♂️⬇️\n@Linex_Official</b>', reply_markup=get_menuUa(query.from_user.id))
 
 @dp.callback_query_handler(lambda query: query.data.startswith('ru'))
 async def Ru_button(query: types.CallbackQuery):
     await query.message.delete()
-    await query.message.answer('\n🔥Ты находишься в лучшем магазине дополнений на Fortnite🔥\n✅Здесь все по низким ценам, и операции проходят быстро 💨\n😉Волноваться не стоит😉\n😎Наши модеры работают 24/7🥇\n😋Желаю удачных покупок!😋\n\n😊Для продолжения выберете пункт в меню😊\n\n⬇️<b>ЕСЛИ ВОЗНИК ВОПРОС 🙋‍♂️⬇️\n@Moder_Linex</b>', reply_markup=get_menuRu(query.from_user.id))
+    await query.message.answer('\n🔥Ты находишься в лучшем магазине дополнений на Fortnite🔥\n✅Здесь все по низким ценам, и операции проходят быстро 💨\n😉Волноваться не стоит😉\n😎Наши модеры работают 24/7🥇\n😋Желаю удачных покупок!😋\n\n😊Для продолжения выберете пункт в меню😊\n\n⬇️<b>ЕСЛИ ВОЗНИК ВОПРОС 🙋‍♂️⬇️\n@Linex_Official</b>', reply_markup=get_menuRu(query.from_user.id))
 
 @dp.message_handler(lambda message: message.text == '🛍️ Категории 🛍️')
 async def process_categories_button(message: types.Message):
@@ -61,21 +71,45 @@ async def process_categories_button(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == '📃 Гарантии 📃')
 async def start(message: types.Message):
-    await message.answer('<b>⚠️Покупая товар в нашем магазине, вы соглашаетесь с правилами гарантии, перечисленными ниже⚠️</b>\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n1. Все ключи, 🔑 которые предоставлены вам, действуют до 1 мая 2025 года.\n\n2. Замену ключа мы можем сделать, если вы сможете показать видео, где ключ 🔑 стал не рабочим!\n\n3. ⚠️ЕСЛИ У ВАС НЕТ ВИДЕО, МЫ НЕ МОЖЕМ ЗАМЕНИТЬ🔑\n\n4. Покупая ключи 🔑, на всякий случай снимайте все на камеру.\n\n5. Если вы купили у нас (Вб) Вы должны добавить в друзья в фортнайте НИК: jipo123423.\n\n6. После покупки вы должны модеру скинуть скрин или видео, что деньги были отправлены.\n\n7. После покупки (Вб) Вам нужно будет ждать 2 дня и потом мы сможем отправить вам подарок\n\n8. Если вы покупаете аккаунт фортнайт БЕЗ ДОСТУПА К ПОЧТЕ, то если он НЕ рабочий вам его НЕ смогут поменять.\n\n👇Если что-то пошло не так, пишите сюда👇\n@Moder_Linex\n\n⬇️Или сюда⬇️\n@Linex_Moder_keys')
+    await message.answer('<b>⚠️Покупая товар в нашем магазине, вы соглашаетесь с правилами гарантии, перечисленными ниже⚠️</b>\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n1. Все ключи, 🔑 которые предоставлены вам, действуют до 1 мая 2025 года.\n\n2. Замену ключа мы можем сделать, если вы сможете показать видео, где ключ 🔑 стал не рабочим!\n\n3. ⚠️ЕСЛИ У ВАС НЕТ ВИДЕО, МЫ НЕ МОЖЕМ ЗАМЕНИТЬ🔑\n\n4. Покупая ключи 🔑, на всякий случай снимайте все на камеру.\n\n5. Если вы купили у нас (Вб) Вы должны добавить в друзья в фортнайте НИК: jipo123423.\n\n6. После покупки вы должны модеру скинуть скрин или видео, что деньги были отправлены.\n\n7. После покупки (Вб) Вам нужно будет ждать 2 дня и потом мы сможем отправить вам подарок\n\n8. Если вы покупаете аккаунт фортнайт БЕЗ ДОСТУПА К ПОЧТЕ, то если он НЕ рабочий вам его НЕ смогут поменять.\n\n👇Если что-то пошло не так, пишите сюда👇\n@Linex_Official\n\n⬇️Или сюда⬇️\n@Moder_Linex_keys')
 
 @dp.message_handler(lambda message: message.text == '👨‍💻 Поддержка 👨‍💻')
 async def start(message: types.Message):
-    await message.answer('⬇️Вот наш Гл. модератор 👨‍💼 напишите ему, он даст вам ответ на любой ваш вопрос(Связанный с нашим телеграм ботом)⬇️\n@Moder_Linex\n\n⬇️Вот наш модератор по ключам⬇️\n@Linex_Moder_keys')
+    await message.answer('⬇️Вот наш Гл. модератор 👨‍💼 напишите ему, он даст вам ответ на любой ваш вопрос(Связанный с нашим телеграм ботом)⬇️\n@Linex_Official\n\n⬇️Вот наш модератор по ключам⬇️\n@Moder_Linex_keys')
 
 @dp.message_handler(lambda message: message.text == '🧩О нас 🧩')
 async def start(message: types.Message):
-    await message.answer('<b>@Linex_keys_bot - является лучшим магазином дополнений для игры Fortnite.</b> \n\n⁉️Почему же он самый лучший⁉️\n\n✅Потому что мы даём 100% гарантию что продукт будет качественный и выдан вам в течении 10 минут✅\n\n☑️Очень вежливые модераторы  объяснят, как правильно купить товар или ответят на любой ваш вопрос (Связанный с нашим телеграм ботом)‼️\n\n⬇️Наши модераторы⬇️\n\n⬇️Гл. модератор:\n@Moder_Linex\n\n⬇️Модератор по ключам:\n@Linex_Moder_keys') 
+    await message.answer('<b>@Linex_keys_bot - является лучшим магазином дополнений для игры Fortnite.</b> \n\n⁉️Почему же он самый лучший⁉️\n\n✅Потому что мы даём 100% гарантию что продукт будет качественный и выдан вам в течении 10 минут✅\n\n☑️Очень вежливые модераторы  объяснят, как правильно купить товар или ответят на любой ваш вопрос (Связанный с нашим телеграм ботом)‼️\n\n⬇️Наши модераторы⬇️\n\n⬇️Гл. модератор:\n@Linex_Official\n\n⬇️Модератор по ключам:\n@Moder_Linex_keys') 
 
 @dp.callback_query_handler(lambda query: query.data.startswith('fortniteru'))
 async def process_buy_code_button(query: types.CallbackQuery):
     with open("img/Fortnite.jpg", "rb") as photo_file:
         await query.message.delete()
         uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption="<b>🛍️ Категория: Fortnite</b>", reply_markup=FortniteRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avaru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption="<b>🛍️ Аватарки на заказ</b>", reply_markup=AvaRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avalowru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка низкого качества\n💸 <b>Цена</b>: Зависит от сложности\n👇 Для заказа воспользуйтесь кнопкой ниже:', reply_markup=BuyAvaRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avamidlru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка среднего качества\n💸 <b>Цена</b>: Зависит от сложности\n👇 Для заказа воспользуйтесь кнопкой ниже:', reply_markup=BuyAvaRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avalegru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка легендарного качества\n💸 <b>Цена</b>: Зависит от сложности\n👇 Для заказа воспользуйтесь кнопкой ниже:', reply_markup=BuyAvaRuIkb)
 
 @dp.callback_query_handler(lambda query: query.data.startswith('otherru'))
 async def process_buy_code_button(query: types.CallbackQuery):
@@ -322,11 +356,23 @@ async def process_buy_code_button(query: types.CallbackQuery):
     await query.message.delete()
     await query.message.answer('🏷 <b>Товар</b>: Подарок на 3000 V-Bucks\n💸 <b>Цена</b>: 310 грн\n👇 Для покупки воспользуйтесь кнопкой ниже:', reply_markup=BuyGiftRuIkb)
 
-@dp.callback_query_handler(lambda query: query.data.startswith('acc_lowru'))
+@dp.callback_query_handler(lambda query: query.data.startswith('acc_full17ru'))
 async def process_buy_code_button(query: types.CallbackQuery):
-    with open("img/acc_low.jpg", "rb") as photo_file:
+    with open("img/acc_full17.jpg", "rb") as photo_file:
         await query.message.delete()
-        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аккаунт 17 скинов Fortnite\n💸 <b>Цена</b>: 65 грн\n👇 Для покупки воспользуйтесь кнопкой ниже:', reply_markup=BuyAccRuIkb)
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Фулл аккаунт 17 скинов Fortnite\n💸 <b>Цена</b>: 65 грн\n👇 Для покупки воспользуйтесь кнопкой ниже:', reply_markup=BuyAccRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('acc_full106ru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/acc_full106.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Фулл аккаунт 106 скинов Fortnite\n💸 <b>Цена</b>: 330 грн\n👇 Для покупки воспользуйтесь кнопкой ниже:', reply_markup=BuyAccRuIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('acc_13ru'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/acc_13.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аккаунт 13 скинов Fortnite\n💸 <b>Цена</b>: 45 грн\n👇 Для покупки воспользуйтесь кнопкой ниже:', reply_markup=BuyAccRuIkb)
 
 @dp.callback_query_handler(lambda query: query.data.startswith('rand_accru_25'))
 async def process_buy_code_button(query: types.CallbackQuery):
@@ -370,7 +416,12 @@ async def process_buy_code_button(query: types.CallbackQuery):
 @dp.callback_query_handler(Text(equals='buyru'))
 async def buy_handler(callback: types.CallbackQuery):
     await callback.message.delete()
-    await callback.message.answer('‼️Оплатите заказ на номер карты💳\n<b>5168 7520 2459 2043</b>\n\n⬇️После оплаты напишите модератору⬇️\n@Moder_Linex.')
+    await callback.message.answer('‼️Оплатите заказ на номер карты💳\n<b>5168 7520 2459 2043</b>\n\n⬇️После оплаты напишите модератору⬇️\n@Linex_Official.')
+
+@dp.callback_query_handler(Text(equals='zakazru'))
+async def buy_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await callback.message.answer('⬇️Для заказа напишите НАМ⬇️\n@Linex_Official.')
 
 
 
@@ -489,21 +540,45 @@ async def process_categories_button(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == '📃 Гарантії 📃')
 async def start(message: types.Message):
-    await message.answer('<b>⚠️Купуючи товар в нашому магазині, ви погоджуєтеся з правилами гарантії, перерахованими нижче⚠️</b>\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n1. Всі ключі, 🔑 які надані вам, дійсні до 1 травня 2025 року.\n\n2. Заміну ключа ми можемо надати, якщо ви зможете показати відео, де ключ 🔑 став не дійсним!\n\n3. ⚠️ЯКЩО У ВАС НЕМАЄ ВІДЕО, МИ НЕ МОЖЕМО ЗАМІНИТИ🔑\n\n4. Купуючи ключі 🔑, на крайній випадок знімайте все на камеру.\n\n5. Якщо ви купили у нас (Вб) Ви маєте додати в друзі в фортнайт НІК: jipo123423.\n\n6. Після купівлі ви маєте модеру відправити скріншот або відео, що гроші було відпралено.\n\n7. Після купівлі (Вб) Вам потрібно буде чекати 2 дні, тоді ми зможемо відправити вам подарунок\n\n8. Якщо ви купуєте аккаунт фотнайт БЕЗ ДОСТУПА ДО ПОШТИ, то якщо він НЕ дійсний вам його НЕ зможуть замінити.\n\n👇Якщо щось пішло не так, пишіть сюди👇\n@Moder_Linex\n\n⬇️Або сюди⬇️\n@Linex_Moder_keys')
+    await message.answer('<b>⚠️Купуючи товар в нашому магазині, ви погоджуєтеся з правилами гарантії, перерахованими нижче⚠️</b>\n-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n1. Всі ключі, 🔑 які надані вам, дійсні до 1 травня 2025 року.\n\n2. Заміну ключа ми можемо надати, якщо ви зможете показати відео, де ключ 🔑 став не дійсним!\n\n3. ⚠️ЯКЩО У ВАС НЕМАЄ ВІДЕО, МИ НЕ МОЖЕМО ЗАМІНИТИ🔑\n\n4. Купуючи ключі 🔑, на крайній випадок знімайте все на камеру.\n\n5. Якщо ви купили у нас (Вб) Ви маєте додати в друзі в фортнайт НІК: jipo123423.\n\n6. Після купівлі ви маєте модеру відправити скріншот або відео, що гроші було відпралено.\n\n7. Після купівлі (Вб) Вам потрібно буде чекати 2 дні, тоді ми зможемо відправити вам подарунок\n\n8. Якщо ви купуєте аккаунт фотнайт БЕЗ ДОСТУПА ДО ПОШТИ, то якщо він НЕ дійсний вам його НЕ зможуть замінити.\n\n👇Якщо щось пішло не так, пишіть сюди👇\n@Linex_Official\n\n⬇️Або сюди⬇️\n@Moder_Linex_keys')
 
 @dp.message_handler(lambda message: message.text == '👨‍💻 Підтримка 👨‍💻')
 async def start(message: types.Message):
-    await message.answer('⬇️Ось наш Гл. модератор 👨‍💼 напишить йому, він дасть вам відповідь на будь-яке ваше запитання(Пов\'язане з нашим телеграм ботом)⬇️\n@Moder_Linex\n\n⬇️Ось наш модератор по ключах⬇️\n@Linex_Moder_keys')
+    await message.answer('⬇️Ось наш Гл. модератор 👨‍💼 напишить йому, він дасть вам відповідь на будь-яке ваше запитання(Пов\'язане з нашим телеграм ботом)⬇️\n@Linex_Official\n\n⬇️Ось наш модератор по ключах⬇️\n@Moder_Linex_keys')
 
 @dp.message_handler(lambda message: message.text == '🧩Про нас 🧩')
 async def start(message: types.Message):
-    await message.answer('<b>@Linex_keys_bot - є найкращим магазином доповнень для гри Fortnite.</b> \n\n⁉️Чому ж він найкращий⁉️\n\n✅Тому, що ми даємо 100% гарантії, що продукт буде якісний і виданий вам протягом 10 хвилин✅\n\n☑️Максимально вічливі модератори пояснять, як правильно купити товар, або дадуть відповідь на будь-яке ваше запитання (Пов\'язане з нашим телеграм ботом)‼️\n\n⬇️Наші модератори⬇️\n\n⬇️Гл. модератор:\n@Moder_Linex\n\n⬇️Модератор по ключах:\n@Linex_Moder_keys') 
+    await message.answer('<b>@Linex_keys_bot - є найкращим магазином доповнень для гри Fortnite.</b> \n\n⁉️Чому ж він найкращий⁉️\n\n✅Тому, що ми даємо 100% гарантії, що продукт буде якісний і виданий вам протягом 10 хвилин✅\n\n☑️Максимально вічливі модератори пояснять, як правильно купити товар, або дадуть відповідь на будь-яке ваше запитання (Пов\'язане з нашим телеграм ботом)‼️\n\n⬇️Наші модератори⬇️\n\n⬇️Гл. модератор:\n@Linex_Official\n\n⬇️Модератор по ключах:\n@Moder_Linex_keys') 
 
 @dp.callback_query_handler(lambda query: query.data.startswith('fortniteua'))
 async def process_buy_code_button(query: types.CallbackQuery):
     with open("img/Fortnite.jpg", "rb") as photo_file:
         await query.message.delete()
         uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption="<b>🛍️ Категорія: Fortnite</b>", reply_markup=FortniteUaIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avaua'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption="<b>🛍️ Аватарки на замовлення</b>", reply_markup=AvaUaIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avalowua'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка низької якості\n💸 <b>Ціна</b>: В залежності від складності\n👇 Для замовлення скористуйтеся кнопкою нижче:', reply_markup=BuyAvaUaIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avamidlua'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка середньої якості\n💸 <b>Ціна</b>: В залежності від складності\n👇 Для замовлення скористуйтеся кнопкою нижче:', reply_markup=BuyAvaUaIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('avalegua'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/Dodelat.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аватарка легендарної якості\n💸 <b>Ціна</b>: В залежності від складності\n👇 Для замовлення скористуйтеся кнопкою нижче:', reply_markup=BuyAvaUaIkb)
 
 @dp.callback_query_handler(lambda query: query.data.startswith('otherua'))
 async def process_buy_code_button(query: types.CallbackQuery):
@@ -750,11 +825,17 @@ async def process_buy_code_button(query: types.CallbackQuery):
     await query.message.delete()
     await query.message.answer('🏷 <b>Товар</b>: Подарунок на 3000 V-Bucks\n💸 <b>Ціна</b>: 310 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyGiftUaIkb)
 
-@dp.callback_query_handler(lambda query: query.data.startswith('acc_lowua'))
+@dp.callback_query_handler(lambda query: query.data.startswith('acc_full17ua'))
 async def process_buy_code_button(query: types.CallbackQuery):
-    with open("img/acc_low.jpg", "rb") as photo_file:
+    with open("img/acc_full17.jpg", "rb") as photo_file:
         await query.message.delete()
-        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аккаунт 17 скінів Fortnite\n💸 <b>Ціна</b>: 65 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyAccUaIkb)
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Фулл аккаунт 17 скінів Fortnite\n💸 <b>Ціна</b>: 65 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyAccUaIkb)
+
+@dp.callback_query_handler(lambda query: query.data.startswith('acc_13ua'))
+async def process_buy_code_button(query: types.CallbackQuery):
+    with open("img/acc_13.jpg", "rb") as photo_file:
+        await query.message.delete()
+        uploaded_photo = await bot.send_photo(chat_id=query.message.chat.id, photo=photo_file, caption='🏷 <b>Товар</b>: Аккаунт 13 скінів Fortnite\n💸 <b>Ціна</b>: 45 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyAccUaIkb)
 
 @dp.callback_query_handler(lambda query: query.data.startswith('rand_accua_25'))
 async def process_buy_code_button(query: types.CallbackQuery):
@@ -770,10 +851,6 @@ async def process_buy_code_button(query: types.CallbackQuery):
 async def process_buy_code_button(query: types.CallbackQuery):
     await query.message.delete()
     await query.message.answer('🏷 <b>Товар</b>: Рандом дорогий\n💸 <b>Ціна</b>: 120 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyRandomUaIkb)
-@dp.callback_query_handler(Text(equals='buyua'))
-async def buy_handler(callback: types.CallbackQuery):
-    await callback.message.delete()
-    await callback.message.answer('‼️Оплатіть замовлення на номер карти💳\n<b>5168 7520 2459 2043</b>\n\n⬇️Після оплати напишіть модератору⬇️\n@Moder_Linex.')
 
 @dp.callback_query_handler(lambda query: query.data.startswith('vbua1000'))
 async def process_buy_code_button(query: types.CallbackQuery):
@@ -794,6 +871,16 @@ async def process_buy_code_button(query: types.CallbackQuery):
 async def process_buy_code_button(query: types.CallbackQuery):
     await query.message.delete()
     await query.message.answer('🏷 <b>Товар</b>: 13 500 V-Bucks\n💸 <b>Ціна</b>: 780 грн\n👇 Для купівлі скористуйтеся кнопкою нижче:', reply_markup=BuyVbUaIkb)
+
+@dp.callback_query_handler(Text(equals='buyua'))
+async def buy_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await callback.message.answer('‼️Оплатіть замовлення на номер карти💳\n<b>5168 7520 2459 2043</b>\n\n⬇️Після оплати напишіть модератору⬇️\n@Linex_Official.')
+
+@dp.callback_query_handler(Text(equals='zakazua'))
+async def buy_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
+    await callback.message.answer('⬇️Для замовлення напишіть НАМ⬇️\n@Linex_Official.')
 
 @dp.message_handler()
 async def mistake(message: types.Message):
