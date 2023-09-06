@@ -31,9 +31,6 @@ class SendAllClassUa(StatesGroup):
 class SendAllClassRu(StatesGroup):
     text = State()
 
-class States(StatesGroup):
-    cooldown = State() 
-
 query = "SELECT COUNT(*) FROM Users"
 cursor.execute(query)
 result = cursor.fetchone()
@@ -972,14 +969,9 @@ async def buy_handler(callback: types.CallbackQuery):
 @dp.message_handler()
 async def mistake(message: types.Message):
     user_id = message.from_user.id
-    if user_id in cooldown_users:
-        return
-    cooldown_users[user_id] = time.time() + 10
     await bot.forward_message(chat_id=1433760480, from_chat_id=message.chat.id, message_id=message.message_id)
     await bot.forward_message(chat_id=5440056373, from_chat_id=message.chat.id, message_id=message.message_id)
-    await message.answer('<b>Невідома команда!</b> \nВаше повідомлення було переслано модератору. \n<b>Відпочиньте, ви не зможете писати ще 10 секунд</b>\nДля повернення на початок введіть /start')
-    time.sleep(10)
-    del cooldown_users[user_id]
+    await message.answer('<b>Невідома команда!</b> \nВаше повідомлення було переслано модератору. \nДля повернення на початок введіть /start')
 
 if __name__ == '__main__':
     from aiogram import executor
