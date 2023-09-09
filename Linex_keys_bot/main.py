@@ -15,7 +15,7 @@ from defs import get_menuRu, get_menuUa
 from db import Database
 
 
-API_TOKEN = '6429550023:AAHgrQNzhvLEEzjLzSxHJ8wDklQ9WWzceqY' 
+API_TOKEN = 'YourTOKEN' 
 
 logging.basicConfig(level=logging.INFO)
 
